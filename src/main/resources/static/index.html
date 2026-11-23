@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>LabPréstamo</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<div id="notice" role="status" hidden></div>
+<section id="login-view" class="login-layout">
+ <div class="intro"><span class="eyebrow">LABORATORIO ACADÉMICO</span><h1>Tu próxima práctica<br>empieza aquí.</h1><p>Consulta equipos, organiza tus reservas y sigue cada préstamo en un solo lugar.</p><div class="intro-bottom">LabPréstamo <span>Equipos disponibles. Prácticas organizadas.</span></div></div>
+ <div class="login-panel"><div class="brand">L<span>LabPréstamo</span></div><h2>Bienvenido de nuevo</h2><p class="muted">Ingresa con tu cuenta del laboratorio.</p>
+ <form id="login-form"><label>Usuario<input name="username" autocomplete="username" required></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label><button>Iniciar sesión</button></form>
+ <details><summary>Cuentas de demostración</summary><p>Estudiante<br><code>estudiante / Estudiante123!</code></p><p>Encargado<br><code>encargado / Encargado123!</code></p><small>Datos locales para uso académico.</small></details></div>
+</section>
+<div id="workspace" hidden>
+ <aside><div class="brand">L<span>LabPréstamo</span></div><p class="eyebrow">MI LABORATORIO</p><nav><button data-view="catalog" class="active">Equipos y disponibilidad</button><button data-view="mine">Mis reservas</button><button data-view="manage" data-admin>Gestión de préstamos</button><button data-view="equipment" data-admin>Administrar equipos</button><button data-view="report" data-admin>Reportes</button></nav><div class="aside-bottom"><strong id="user-name"></strong><small id="user-role"></small><button id="logout" class="secondary">Cerrar sesión</button></div></aside>
+ <main><header><span>Laboratorio de electrónica</span><span id="today"></span></header>
+ <section id="catalog" class="view"><div class="heading"><div><span class="eyebrow">CATÁLOGO</span><h1>Equipos para tu práctica</h1><p>Selecciona un horario para consultar la disponibilidad.</p></div><span class="counter" id="equipment-count"></span></div>
+ <form id="availability" class="toolbar"><label>Desde<input name="start" type="datetime-local" required></label><label>Hasta<input name="end" type="datetime-local" required></label><button>Consultar disponibilidad</button><button type="button" id="clear-filter" class="secondary">Ver todos</button></form><div id="equipment-cards" class="cards"></div></section>
+ <section id="mine" class="view" hidden><div class="heading"><div><span class="eyebrow">SEGUIMIENTO</span><h1>Mis reservas</h1><p>Consulta tus solicitudes, entregas y devoluciones.</p></div></div><div id="my-reservations"></div></section>
+ <section id="manage" class="view" hidden><div class="heading"><div><span class="eyebrow">ENCARGADO</span><h1>Gestión de préstamos</h1><p>Revisa solicitudes y registra cada entrega y devolución.</p></div></div><label class="filter-label">Filtrar estado<select id="manage-status"><option value="">Todos</option><option>PENDIENTE</option><option>APROBADA</option><option>PRESTADO</option><option>DEVUELTO</option><option>RECHAZADA</option><option>CANCELADA</option></select></label><div id="all-reservations"></div></section>
+ <section id="equipment" class="view" hidden><div class="heading"><div><span class="eyebrow">INVENTARIO</span><h1>Administrar equipos</h1><p>Registra equipos y actualiza su estado operativo.</p></div><button id="new-equipment">Agregar equipo</button></div><div id="inventory"></div></section>
+ <section id="report" class="view" hidden><div class="heading"><div><span class="eyebrow">RESUMEN</span><h1>Reporte de préstamos</h1><p>Filtra por fecha de inicio de reserva y estado.</p></div></div><form id="report-filter" class="toolbar"><label>Desde<input type="date" name="from"></label><label>Hasta<input type="date" name="to"></label><label>Estado<select name="status"><option value="">Todos</option><option>PENDIENTE</option><option>APROBADA</option><option>PRESTADO</option><option>DEVUELTO</option><option>VENCIDO</option><option>RECHAZADA</option><option>CANCELADA</option></select></label><button>Consultar</button><button id="export" type="button" class="secondary">Descargar CSV</button></form><div id="report-summary" class="stats"></div><div id="report-rows"></div></section>
+ </main>
+</div>
+<dialog id="modal"><button id="close-modal" class="close" type="button" aria-label="Cerrar">×</button><h2 id="modal-title"></h2><form id="modal-form"></form></dialog>
+</body></html>
