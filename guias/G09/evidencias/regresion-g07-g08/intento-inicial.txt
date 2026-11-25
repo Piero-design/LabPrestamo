@@ -1,0 +1,17 @@
+-------------------------------------------------------------------------------
+Test set: pe.labprestamo.SeleniumIT
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 40.08 s <<< FAILURE! -- in pe.labprestamo.SeleniumIT
+pe.labprestamo.SeleniumIT.validReservation -- Time elapsed: 18.10 s <<< ERROR!
+org.openqa.selenium.TimeoutException: 
+Expected condition failed: waiting for visibility of element located by By.cssSelector: #my-reservations tbody (tried for 15 second(s) with 500 milliseconds interval)
+Build info: version: '4.37.0', revision: '3c1da1e342'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '27.2.1', java.version: '25.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 158.0.8127.88, chrome: {chromedriverVersion: 158.0.8127.88 (0cefb18236a2..., userDataDir: /var/folders/k9/rmhs1tgd4m3...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50246}, goog:processID: 38988, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:50246/devtoo..., se:cdpVersion: 158.0.8127.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, userAgent: Mozilla/5.0 (Macintosh; Int..., webauthn:extension:cmtgKey: true, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 1a9a6261014d1c774ec2e623245b6fbf
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
+	at pe.labprestamo.SeleniumIT.visible(SeleniumIT.java:57)
+	at pe.labprestamo.SeleniumIT.validReservation(SeleniumIT.java:106)
+

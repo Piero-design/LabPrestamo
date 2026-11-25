@@ -103,6 +103,7 @@ class SeleniumIT {
     void validReservation() {
         student();reservationForm(LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(1).plusHours(1));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("modal")));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("notice"),"Operación guardada."));
         click("[data-view=mine]");assertTrue(visible("#my-reservations tbody").getText().contains("PENDIENTE"));
         assertTrue(visible("#my-reservations tbody").getText().contains("Práctica Selenium G09"));
         assertEquals(1,db.queryForObject("SELECT COUNT(*) FROM reservation",Integer.class));

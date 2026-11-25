@@ -18,3 +18,6 @@ CREATE TABLE IF NOT EXISTS reservation (
  CHECK(ends_at > starts_at)
 );
 CREATE INDEX IF NOT EXISTS idx_reservation_equipment ON reservation(equipment_id, starts_at, ends_at);
+
+-- G08: búsquedas de disponibilidad por equipo, estado y fin del intervalo.
+CREATE INDEX IF NOT EXISTS idx_reservation_availability ON reservation(equipment_id, status, ends_at, starts_at);

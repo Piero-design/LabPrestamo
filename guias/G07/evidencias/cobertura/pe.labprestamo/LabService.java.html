@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LabService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">labprestamo</a> &gt; <a href="index.source.html" class="el_package">pe.labprestamo</a> &gt; <span class="el_source">LabService.java</span></div><h1>LabService.java</h1><pre class="source lang-java linenums">package pe.labprestamo;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
+public class LabService {
+    private final JdbcTemplate db;
+<span class="fc" id="L16">    public LabService(JdbcTemplate db) { this.db = db; }</span>
+
+    static String required(String value, int max) {
+<span class="fc bfc" id="L19" title="All 6 branches covered.">        if (value == null || value.isBlank() || value.trim().length() &gt; max) {</span>
+<span class="fc" id="L20">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Completa los campos y respeta su longitud máxima.&quot;);</span>
+        }
+<span class="fc" id="L22">        return value.trim();</span>
+    }
+    static void interval(LocalDateTime start, LocalDateTime end) {
+<span class="pc bpc" id="L25" title="1 of 6 branches missed.">        if (start == null || end == null || !end.isAfter(start)) {</span>
+<span class="fc" id="L26">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;El fin debe ser posterior al inicio.&quot;);</span>
+        }
+<span class="fc" id="L28">    }</span>
+    private Map&lt;String, Object&gt; one(String sql, Object... args) {
+<span class="fc" id="L30">        var rows = db.queryForList(sql, args);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (rows.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Registro no encontrado.&quot;);</span>
+<span class="fc" id="L32">        return rows.get(0);</span>
+    }
+<span class="fc" id="L34">    private void conflict(String message) { throw new ResponseStatusException(HttpStatus.CONFLICT, message); }</span>
+
+    public List&lt;Map&lt;String, Object&gt;&gt; equipment(LocalDateTime start, LocalDateTime end) {
+<span class="pc bpc" id="L37" title="1 of 4 branches missed.">        if (start == null &amp;&amp; end == null) return db.queryForList(&quot;SELECT * FROM equipment ORDER BY code&quot;);</span>
+<span class="fc" id="L38">        interval(start, end);</span>
+<span class="fc" id="L39">        return db.queryForList(&quot;&quot;&quot;</span>
+            SELECT e.*, (e.state='OPERATIVO' AND NOT EXISTS (
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='PENDIENTE' AND r.starts_at &lt; ? AND r.ends_at &gt; ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='APROBADA' AND r.starts_at &lt; ? AND r.ends_at &gt; ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='PRESTADO' AND r.starts_at &lt; ? AND r.ends_at &gt; ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation late WHERE late.equipment_id=e.id
+              AND late.status='PRESTADO' AND late.ends_at &lt; CURRENT_TIMESTAMP
+            )) AS available
+            FROM equipment e ORDER BY e.code
+            &quot;&quot;&quot;, end, start, end, start, end, start);
+    }
+
+    @Transactional
+    public void saveEquipment(Long id, String code, String name, String category, String state) {
+<span class="fc" id="L59">        code = required(code,40); name = required(name,120); category = required(category,80);</span>
+<span class="pc bpc" id="L60" title="1 of 4 branches missed.">        if (!List.of(&quot;OPERATIVO&quot;,&quot;MANTENIMIENTO&quot;).contains(state == null ? &quot;&quot; : state))</span>
+<span class="fc" id="L61">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,&quot;Estado inválido.&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (id == null) {</span>
+<span class="fc" id="L63">            db.update(&quot;INSERT INTO equipment(code,name,category,state) VALUES (?,?,?,?)&quot;,code,name,category,state);</span>
+        } else {
+<span class="fc" id="L65">            one(&quot;SELECT * FROM equipment WHERE id=? FOR UPDATE&quot;,id);</span>
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">            if (state.equals(&quot;MANTENIMIENTO&quot;) &amp;&amp; db.queryForObject(&quot;SELECT COUNT(*) FROM reservation WHERE equipment_id=? AND (status='PRESTADO' OR (status IN ('PENDIENTE','APROBADA') AND ends_at&gt;CURRENT_TIMESTAMP))&quot;,Integer.class,id)&gt;0)</span>
+<span class="nc" id="L67">                conflict(&quot;Cancela o rechaza las reservas vigentes y recibe los préstamos antes de pasar a mantenimiento.&quot;);</span>
+<span class="fc" id="L68">            db.update(&quot;UPDATE equipment SET code=?,name=?,category=?,state=? WHERE id=?&quot;,code,name,category,state,id);</span>
+        }
+<span class="fc" id="L70">    }</span>
+
+    @Transactional
+    public void reserve(String username, long equipmentId, LocalDateTime start, LocalDateTime end, String reason) {
+<span class="fc" id="L74">        interval(start,end); reason=required(reason,500);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (!start.isAfter(LocalDateTime.now())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,&quot;El inicio debe estar en el futuro.&quot;);</span>
+        // Every reservation transition takes the equipment lock first to serialize conflicting requests.
+<span class="fc" id="L77">        var equipment=one(&quot;SELECT * FROM equipment WHERE id=? FOR UPDATE&quot;,equipmentId);</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (!equipment.get(&quot;STATE&quot;).equals(&quot;OPERATIVO&quot;)) conflict(&quot;El equipo está en mantenimiento.&quot;);</span>
+<span class="fc" id="L79">        checkAvailability(equipmentId,start,end,-1);</span>
+<span class="fc" id="L80">        db.update(&quot;INSERT INTO reservation(equipment_id,username,starts_at,ends_at,reason,status) VALUES (?,?,?,?,?,'PENDIENTE')&quot;,equipmentId,username,start,end,reason);</span>
+<span class="fc" id="L81">    }</span>
+    private void checkAvailability(long equipmentId, LocalDateTime start, LocalDateTime end, long excludeId) {
+<span class="fc" id="L83">        int count=db.queryForObject(&quot;&quot;&quot;</span>
+            SELECT COUNT(*) FROM reservation WHERE equipment_id=? AND id&lt;&gt;? AND
+            ((status IN ('PENDIENTE','APROBADA','PRESTADO') AND starts_at&lt;? AND ends_at&gt;?)
+            OR (status='PRESTADO' AND ends_at&lt;CURRENT_TIMESTAMP))
+<span class="fc" id="L87">            &quot;&quot;&quot;,Integer.class,equipmentId,excludeId,end,start);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (count&gt;0) conflict(&quot;El equipo ya está reservado en ese horario o tiene una devolución pendiente.&quot;);</span>
+<span class="fc" id="L89">    }</span>
+
+    public List&lt;Map&lt;String,Object&gt;&gt; reservations(String username) {
+<span class="fc" id="L92">        String sql=&quot;SELECT r.*,e.name AS equipment_name,e.code,u.name AS student_name FROM reservation r JOIN equipment e ON e.id=r.equipment_id JOIN app_user u ON u.username=r.username&quot;;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (username==null) return db.queryForList(sql+&quot; ORDER BY r.id DESC&quot;);</span>
+<span class="fc" id="L94">        return db.queryForList(sql+&quot; WHERE r.username=? ORDER BY r.id DESC&quot;,username);</span>
+    }
+
+    @Transactional
+    public void transition(long id, String action, String username, boolean admin, String note, boolean damaged) {
+<span class="fc" id="L99">        var original=one(&quot;SELECT equipment_id FROM reservation WHERE id=?&quot;,id);</span>
+<span class="fc" id="L100">        long equipmentId=((Number)original.get(&quot;EQUIPMENT_ID&quot;)).longValue();</span>
+<span class="fc" id="L101">        var equipment=one(&quot;SELECT * FROM equipment WHERE id=? FOR UPDATE&quot;,equipmentId);</span>
+<span class="fc" id="L102">        var row=one(&quot;SELECT * FROM reservation WHERE id=? FOR UPDATE&quot;,id);</span>
+<span class="fc" id="L103">        String status=(String)row.get(&quot;STATUS&quot;);</span>
+<span class="fc" id="L104">        LocalDateTime start=((Timestamp)row.get(&quot;STARTS_AT&quot;)).toLocalDateTime();</span>
+<span class="fc" id="L105">        LocalDateTime end=((Timestamp)row.get(&quot;ENDS_AT&quot;)).toLocalDateTime();</span>
+<span class="fc" id="L106">        LocalDateTime now=LocalDateTime.now();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (action.equals(&quot;cancel&quot;)) {</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (!username.equals(row.get(&quot;USERNAME&quot;))) throw new ResponseStatusException(HttpStatus.FORBIDDEN,&quot;Solo puedes cancelar tus reservas.&quot;);</span>
+<span class="pc bpc" id="L109" title="1 of 4 branches missed.">            if (!List.of(&quot;PENDIENTE&quot;,&quot;APROBADA&quot;).contains(status) || !start.isAfter(now)) conflict(&quot;La reserva ya no puede cancelarse.&quot;);</span>
+<span class="fc" id="L110">            db.update(&quot;UPDATE reservation SET status='CANCELADA' WHERE id=?&quot;,id);</span>
+<span class="fc" id="L111">            return;</span>
+        }
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (!admin) throw new ResponseStatusException(HttpStatus.FORBIDDEN,&quot;Esta acción requiere el rol encargado.&quot;);</span>
+<span class="fc bfc" id="L114" title="All 4 branches covered.">        switch(action) {</span>
+            case &quot;approve&quot;, &quot;reject&quot; -&gt; {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">                if (!status.equals(&quot;PENDIENTE&quot;)) conflict(&quot;La solicitud ya fue atendida.&quot;);</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">                if (action.equals(&quot;approve&quot;)) {</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">                    if (!end.isAfter(now)) conflict(&quot;El horario de la reserva ya terminó.&quot;);</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">                    if (!equipment.get(&quot;STATE&quot;).equals(&quot;OPERATIVO&quot;)) conflict(&quot;Equipo en mantenimiento.&quot;);</span>
+<span class="fc" id="L120">                    checkAvailability(equipmentId,start,end,id);</span>
+<span class="fc" id="L121">                } else note=required(note,500);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                db.update(&quot;UPDATE reservation SET status=?,decided_by=?,decision_note=? WHERE id=?&quot;,action.equals(&quot;approve&quot;)?&quot;APROBADA&quot;:&quot;RECHAZADA&quot;,username,note,id);</span>
+<span class="fc" id="L123">            }</span>
+            case &quot;deliver&quot; -&gt; {
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">                if (!status.equals(&quot;APROBADA&quot;)) conflict(&quot;Solo se entregan reservas aprobadas.&quot;);</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">                if (now.isBefore(start) || !now.isBefore(end)) conflict(&quot;La entrega debe realizarse dentro del horario reservado.&quot;);</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">                if (!equipment.get(&quot;STATE&quot;).equals(&quot;OPERATIVO&quot;)) conflict(&quot;Equipo en mantenimiento.&quot;);</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">                if (db.queryForObject(&quot;SELECT COUNT(*) FROM reservation WHERE equipment_id=? AND status='PRESTADO'&quot;,Integer.class,equipmentId)&gt;0) conflict(&quot;El equipo aún no ha sido devuelto.&quot;);</span>
+<span class="fc" id="L129">                db.update(&quot;UPDATE reservation SET status='PRESTADO',delivered_at=?,delivered_by=?,initial_condition=? WHERE id=?&quot;,now,username,required(note,500),id);</span>
+<span class="fc" id="L130">            }</span>
+            case &quot;return&quot; -&gt; {
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                if (!status.equals(&quot;PRESTADO&quot;)) conflict(&quot;Solo se reciben préstamos abiertos.&quot;);</span>
+<span class="fc" id="L133">                db.update(&quot;UPDATE reservation SET status='DEVUELTO',returned_at=?,returned_by=?,final_condition=? WHERE id=?&quot;,now,username,required(note,500),id);</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                if (damaged) db.update(&quot;UPDATE equipment SET state='MANTENIMIENTO' WHERE id=?&quot;,equipmentId);</span>
+            }
+<span class="fc" id="L136">            default -&gt; throw new ResponseStatusException(HttpStatus.BAD_REQUEST,&quot;Acción inválida.&quot;);</span>
+        }
+<span class="fc" id="L138">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

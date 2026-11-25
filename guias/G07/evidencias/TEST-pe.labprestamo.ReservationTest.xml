@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="pe.labprestamo.ReservationTest" time="0.012" tests="12" errors="0" skipped="0" failures="0">
+  <testcase name="PU19_reasonOverLimitRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU14_missingDateRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU16_maintenanceRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU13_reverseIntervalRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU11_validReservation" classname="pe.labprestamo.ReservationTest" time="0.0" />
+  <testcase name="PU17_overlapRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU18_reasonLimitAccepted" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU15_pastRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU20_nullReasonRejected" classname="pe.labprestamo.ReservationTest" time="0.0" />
+  <testcase name="PU22_allReservations" classname="pe.labprestamo.ReservationTest" time="0.0" />
+  <testcase name="PU12_equalIntervalRejected" classname="pe.labprestamo.ReservationTest" time="0.001" />
+  <testcase name="PU21_ownReservations" classname="pe.labprestamo.ReservationTest" time="0.001" />
+</testsuite>

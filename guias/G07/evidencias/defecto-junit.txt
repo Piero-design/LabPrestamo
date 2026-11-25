@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: pe.labprestamo.ReservationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.092 s <<< FAILURE! -- in pe.labprestamo.ReservationTest
+pe.labprestamo.ReservationTest.PU12_equalIntervalRejected -- Time elapsed: 0.018 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected org.springframework.web.server.ResponseStatusException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:159)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:74)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)
+	at pe.labprestamo.BusinessTestSupport.error(BusinessTestSupport.java:31)
+	at pe.labprestamo.ReservationTest.PU12_equalIntervalRejected(ReservationTest.java:7)
+

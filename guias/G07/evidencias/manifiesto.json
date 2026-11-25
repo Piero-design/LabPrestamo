@@ -1,0 +1,19 @@
+{
+  "fecha_utc": "2026-11-25T03:51:20.038909+00:00",
+  "producto": "0.2.0 + CH-03",
+  "base_git": "efc8219",
+  "java": "25.0.2",
+  "junit": "6.0.3",
+  "surefire": "3.5.4",
+  "jacoco": "0.8.14",
+  "sha256": {
+    "src/test/java/pe/labprestamo/AvailabilitySqlTest.java": "6f29ec806519eb8cedef4b0d3d7c994543508ef2f750656d1a54e65cb7d151cd",
+    "src/test/java/pe/labprestamo/LoanTest.java": "3a68f94652becbf9e524b4dac226b9d7c5cdec6625035fe16d38d4792b1d6295",
+    "src/test/java/pe/labprestamo/EquipmentTest.java": "88a5e8fb9bf2d8a5b62d7ca004151a4f52925f3c3d0c0b75fd72a11f8afb5a20",
+    "src/test/java/pe/labprestamo/ReservationTest.java": "4d53b1107f428f4d5ec0f4a6af680f1bfe4bc4e208b75b372b6b83b213938a6f",
+    "src/test/java/pe/labprestamo/BusinessTestSupport.java": "b87621ed83238e66172d3fd387e3218f2c89c1883b96f5c0930b09ab5d1e8136",
+    "src/main/java/pe/labprestamo/LabService.java": "3a20efc72631087f75fadcf8c4ab15fe0800524ecde696016967c0788e4243c8",
+    "src/main/resources/schema.sql": "8bd33a45024c68fc005a08cbc7f4c7caf00a6926d6c0707811697259ca0d99ad",
+    "pom.xml": "9b1c4b793d2bdf86b1a744f4ea9c63a13b9783a4161fe70768ba880c2f2b17b6"
+  }
+}

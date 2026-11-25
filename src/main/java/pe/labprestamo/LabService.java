@@ -38,11 +38,20 @@ public class LabService {
         interval(start, end);
         return db.queryForList("""
             SELECT e.*, (e.state='OPERATIVO' AND NOT EXISTS (
-              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id AND
-              ((r.status IN ('PENDIENTE','APROBADA','PRESTADO') AND r.starts_at < ? AND r.ends_at > ?)
-              OR (r.status='PRESTADO' AND r.ends_at < CURRENT_TIMESTAMP))
-            )) AS available FROM equipment e ORDER BY e.code
-            """, end, start);
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='PENDIENTE' AND r.starts_at < ? AND r.ends_at > ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='APROBADA' AND r.starts_at < ? AND r.ends_at > ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation r WHERE r.equipment_id=e.id
+              AND r.status='PRESTADO' AND r.starts_at < ? AND r.ends_at > ?
+            ) AND NOT EXISTS (
+              SELECT 1 FROM reservation late WHERE late.equipment_id=e.id
+              AND late.status='PRESTADO' AND late.ends_at < CURRENT_TIMESTAMP
+            )) AS available
+            FROM equipment e ORDER BY e.code
+            """, end, start, end, start, end, start);
     }
 
     @Transactional

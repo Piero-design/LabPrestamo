@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="pe.labprestamo.LoanTest" time="0.111" tests="19" errors="0" skipped="0" failures="0">
+  <testcase name="PU37_unknownAction" classname="pe.labprestamo.LoanTest" time="0.023" />
+  <testcase name="PU41_deliverUnreturnedRejected" classname="pe.labprestamo.LoanTest" time="0.004" />
+  <testcase name="PU33_deliverTooEarlyRejected" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU39_approveMaintenanceRejected" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU26_adminRequired" classname="pe.labprestamo.LoanTest" time="0.0" />
+  <testcase name="PU40_deliverMaintenanceRejected" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU24_cancelOtherForbidden" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU28_rejectWithReason" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU25_cancelStartedRejected" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU23_cancelOwnReservation" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU34_returnDamaged" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU27_approvePending" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU29_rejectWithoutReason" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU31_deliverApproved" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU30_decideAlreadyProcessed" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU32_deliverPendingRejected" classname="pe.labprestamo.LoanTest" time="0.001" />
+  <testcase name="PU36_returnPendingRejected" classname="pe.labprestamo.LoanTest" time="0.0" />
+  <testcase name="PU38_approveExpiredRejected" classname="pe.labprestamo.LoanTest" time="0.0" />
+  <testcase name="PU35_returnUndamaged" classname="pe.labprestamo.LoanTest" time="0.0" />
+</testsuite>

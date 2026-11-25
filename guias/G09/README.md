@@ -72,3 +72,7 @@ El resultado de esta suite permite emitir un dictamen funcional limitado a los o
 ## Ejecución conservada del 24 de noviembre de 2026
 
 Dos ejecuciones finalizaron con 8 aprobados, 0 fallos, 0 errores y 0 omitidos. [Consultar dictamen y límites](DICTAMEN.md). Los reportes se conservan en `evidencias/`. La segunda corrida incluye capturas y un manifiesto con hashes de las fuentes. Chrome for Testing y ChromeDriver utilizaron la versión 158.0.8127.88.
+
+## Regresión de CH-03
+
+La repetición final del 25/11/2026 aprobó los ocho casos. Se conserva también el timeout inicial y su seguimiento en [regresion-g07-g08](evidencias/regresion-g07-g08/README.md).

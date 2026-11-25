@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="pe.labprestamo.EquipmentTest" time="0.009" tests="10" errors="0" skipped="0" failures="0">
+  <testcase name="PU04_rejectLongName" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU01_createTrimsFields" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU06_rejectMaintenanceWithLoans" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU03_acceptMaximumName" classname="pe.labprestamo.EquipmentTest" time="0.0" />
+  <testcase name="PU10_catalogWithInterval" classname="pe.labprestamo.EquipmentTest" time="0.0" />
+  <testcase name="PU07_allowMaintenanceWithoutLoans" classname="pe.labprestamo.EquipmentTest" time="0.0" />
+  <testcase name="PU08_unknownEquipment" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU09_catalogWithoutInterval" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU05_rejectInvalidState" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+  <testcase name="PU02_rejectEmptyCode" classname="pe.labprestamo.EquipmentTest" time="0.001" />
+</testsuite>

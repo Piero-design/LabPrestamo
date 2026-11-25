@@ -1,0 +1,11 @@
+{
+  "fecha": "2026-11-25",
+  "version": "0.2.0 + CH-03",
+  "resultado": "8 aprobados, 0 fallos, 0 errores",
+  "source_sha256": {
+    "src/main/java/pe/labprestamo/LabService.java": "3a20efc72631087f75fadcf8c4ab15fe0800524ecde696016967c0788e4243c8",
+    "src/main/resources/schema.sql": "8bd33a45024c68fc005a08cbc7f4c7caf00a6926d6c0707811697259ca0d99ad",
+    "src/test/java/pe/labprestamo/SeleniumIT.java": "a1f222b7022df315bd8c08162d6c14eb782be11978c4f84d3181194d445276bb",
+    "pom.xml": "9b1c4b793d2bdf86b1a744f4ea9c63a13b9783a4161fe70768ba880c2f2b17b6"
+  }
+}
