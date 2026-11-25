@@ -1,0 +1,75 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Application {
+  +main(args)
+}
+class ApiController {
+  -service: LabService
+  -db: JdbcTemplate
+  +equipment(start, end)
+  +reservations(auth)
+  +reserve(input, auth)
+  +action(id, action, input, auth)
+  +report(from, to, status)
+}
+class LabService {
+  -db: JdbcTemplate
+  +equipment(start, end)
+  +saveEquipment(id, code, name, category, state)
+  +reserve(username, equipmentId, start, end, reason)
+  +reservations(username)
+  +transition(id, action, username, admin, note, damaged)
+  -checkAvailability(equipmentId, start, end, excludeId)
+}
+class SecurityConfig {
+  +passwordEncoder()
+  +users(db)
+  +security(http)
+}
+class JdbcTemplate
+class PasswordEncoder
+
+class app_user <<table>> {
+  username: PK
+  password: BCrypt hash
+  name
+  role: ESTUDIANTE | ENCARGADO
+}
+class equipment <<table>> {
+  id: PK
+  code: UNIQUE
+  name
+  category
+  state: OPERATIVO | MANTENIMIENTO
+}
+class reservation <<table>> {
+  id: PK
+  equipment_id: FK
+  username: FK
+  starts_at
+  ends_at
+  reason
+  status
+  decided_by, decision_note
+  delivered_at, delivered_by, initial_condition
+  returned_at, returned_by, final_condition
+}
+
+Application ..> ApiController : Spring Boot context
+ApiController --> LabService
+ApiController --> JdbcTemplate : /me
+LabService --> JdbcTemplate
+SecurityConfig --> JdbcTemplate : cargar usuarios
+SecurityConfig ..> PasswordEncoder
+JdbcTemplate ..> app_user
+JdbcTemplate ..> equipment
+JdbcTemplate ..> reservation
+app_user "1" -- "0..*" reservation : username
+equipment "1" -- "0..*" reservation : equipment_id
+note bottom of reservation
+  El préstamo y su entrega/devolución se
+  representan en reservation; no hay clase
+  Java de entidad en el código inspeccionado.
+end note
+@enduml
