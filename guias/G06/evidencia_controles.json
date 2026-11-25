@@ -1,0 +1,38 @@
+{
+  "fecha": "2026-11-24T15:33:12.082546-05:00",
+  "commit": "f460c88cf85b138daf2c9473ed2b73e1614f3e5c",
+  "base": "http://localhost:8080/api",
+  "casos": {
+    "CT-02": {
+      "HTTP": [
+        409,
+        200
+      ],
+      "registros": 1,
+      "IDs": [
+        2
+      ],
+      "estado": "APROBADO"
+    },
+    "CT-01": {
+      "reserva": 2,
+      "HTTP_estudiante": 403,
+      "HTTP_listado_encargado": 200,
+      "antes": "PENDIENTE",
+      "despues": "PENDIENTE",
+      "estado": "APROBADO"
+    }
+  },
+  "nota": "Solo entorno local; se conserva reserva de prueba.",
+  "roles": [
+    "ESTUDIANTE",
+    "ESTUDIANTE",
+    "ENCARGADO"
+  ],
+  "datos": {
+    "equipmentId": 1,
+    "start": "2026-12-01T15:33",
+    "end": "2026-12-01T16:03",
+    "reason": "G06-824d111b114e"
+  }
+}
