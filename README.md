@@ -81,6 +81,6 @@ Los archivos de `data/` están excluidos de Git. Para respaldar, detener la app 
 
 ## Estado académico
 
-La aplicación es la base para realizar después las pruebas JUnit, JMeter y Selenium. Los objetivos de rendimiento, usabilidad y cobertura todavía deben medirse. G05 requiere además SVN aunque el proyecto se comparta mediante GitHub. Los documentos originales describen la propuesta del primer entregable y conservan su fecha. La implementación actual usa H2 local y corresponde a una etapa posterior.
+La aplicación incluye una suite inicial de ocho pruebas Selenium para G09, ejecutable con `./selenium.sh`. Véase [la guía de ejecución y datos](guias/G09/README.md). Las pruebas unitarias de negocio y las pruebas JMeter corresponden a las siguientes etapas. Los objetivos de rendimiento, usabilidad y cobertura todavía deben medirse. G05 requiere además SVN aunque el proyecto se comparta mediante GitHub. Los documentos originales describen la propuesta del primer entregable y conservan su fecha. La implementación actual usa H2 local y corresponde a una etapa posterior.
 
 Se empleó asistencia de IA para elaborar la propuesta, mockups e implementación. El equipo debe validar el alcance con el docente y ejecutar las nueve guías con evidencias propias.

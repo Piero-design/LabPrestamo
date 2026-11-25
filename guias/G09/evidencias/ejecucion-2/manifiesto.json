@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-24",
+  "command": "./selenium.sh -B -ntp",
+  "application": "0.2.0",
+  "selenium": "4.37.0",
+  "junit": "6.0.3",
+  "chrome": "158.0.8127.88",
+  "environment": {
+    "os.name": "Mac OS X",
+    "os.version": "27.2.1",
+    "java.version": "25.0.2",
+    "os.arch": "aarch64"
+  },
+  "result": {
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "19.589"
+  },
+  "source_sha256": {
+    "pom.xml": "e9f93555bf3227feeab2f7b7c41bf17a596b8a01980f332fd9ed6dbced41441f",
+    "src/test/java/pe/labprestamo/SeleniumIT.java": "ef0192a5923f3530aa04e57b6520f61a6b410715a5c459bf2e72eb370b048150",
+    "src/main/resources/schema.sql": "a3dd3e0d85b28c35d6434b36e4aa0a1a736d209a96f7a000ed50076d45a2573b",
+    "src/main/resources/application.properties": "0f693e81f5efdf8576f34c9050761f879fe2fb7fd970ca1ddbc3b3ca2ac51cdd",
+    "src/main/java/pe/labprestamo/DemoData.java": "2d06c9ed222e653093a6d0ff2c467b801348b2f9cf666aba76b3831d3616dabb",
+    "src/main/java/pe/labprestamo/SecurityConfig.java": "97ed3ad3a1b0e072274f92d481bd7234e987cb7625d158d40fb79a02d167416b",
+    "src/main/java/pe/labprestamo/Application.java": "eb41ea0c54e0ac467e4b80938d6b388abfbbe567b36ac33a90486d706f3a4b45",
+    "src/main/java/pe/labprestamo/LabService.java": "c606fb2ccce33cb7cb4f3ad28b772167a9e9a3273c85f3d09e00f173fc9624fb",
+    "src/main/java/pe/labprestamo/ApiController.java": "63df2895b7f243fe6c9a7e88e95d303f263a2fd0754838bd19328193aa6db994",
+    "src/main/resources/static/index.html": "3ba566f757042cf8f863566e819a9f46cb1bf5595182e07fb6a4c1d6159cdd15",
+    "src/main/resources/static/style.css": "8fe90eeb0c796bf99c791dec31dfa4c89d07170908dd2734d9f8d3eef249faa3",
+    "src/main/resources/static/app.js": "0bda2cc0995acd7a42b8b47e3fb2f462c24a742989bd55b7119406699a6b3b32"
+  }
+}

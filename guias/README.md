@@ -1,6 +1,6 @@
 # Nueve guías aplicadas a LabPréstamo
 
-Las nueve guías pertenecen al mismo producto. Esta versión implementa la app y conserva la propuesta. La ejecución de las pruebas académicas se realizará en una etapa posterior, por indicación del equipo. Las carpetas detallan el trabajo pendiente, sin atribuir resultados aún no obtenidos.
+Las nueve guías pertenecen al mismo producto. Esta versión implementa la app y conserva la propuesta. G09 dispone de una suite inicial Selenium y su procedimiento de ejecución. Las pruebas unitarias de negocio y las de rendimiento quedan pendientes. Las carpetas detallan el trabajo pendiente, sin atribuir resultados aún no obtenidos.
 
 - [G01 Requerimientos](G01/README.md)
 - [G02 Proceso de requerimientos](G02/README.md)

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report.xsd" version="3.0.2" name="pe.labprestamo.SeleniumIT" time="19.589" tests="8" errors="0" skipped="0" failures="0">
+  <testcase name="roleRestriction" classname="pe.labprestamo.SeleniumIT" time="2.318">
+    </testcase>
+  <testcase name="loanLifecycle" classname="pe.labprestamo.SeleniumIT" time="3.208">
+    </testcase>
+  <testcase name="logout" classname="pe.labprestamo.SeleniumIT" time="1.995">
+    </testcase>
+  <testcase name="invalidInterval" classname="pe.labprestamo.SeleniumIT" time="2.493">
+    </testcase>
+  <testcase name="invalidLogin" classname="pe.labprestamo.SeleniumIT" time="1.748">
+    </testcase>
+  <testcase name="validReservation" classname="pe.labprestamo.SeleniumIT" time="1.918">
+    </testcase>
+  <testcase name="successfulLogin" classname="pe.labprestamo.SeleniumIT" time="1.751">
+    </testcase>
+  <testcase name="availability" classname="pe.labprestamo.SeleniumIT" time="2.305">
+    </testcase>
+</testsuite>
