@@ -1,0 +1,44 @@
+--- LabService.java (base r6)
++++ LabService.java (rama_15min)
+@@ -13,6 +13,10 @@
+ @Service
+ public class LabService {
+     private final JdbcTemplate db;
++    /** Minimum separation required between reservations, in minutes. */
++    // Rama G05: se acuerda un margen de preparacion de 15 minutos.
++    private static final int PREPARATION_MINUTES = 15;
++
+     public LabService(JdbcTemplate db) { this.db = db; }
+ 
+     static String required(String value, int max) {
+@@ -39,10 +43,12 @@
+         return db.queryForList("""
+             SELECT e.*, (e.state='OPERATIVO' AND NOT EXISTS (
+               SELECT 1 FROM reservation r WHERE r.equipment_id=e.id AND
+-              ((r.status IN ('PENDIENTE','APROBADA','PRESTADO') AND r.starts_at < ? AND r.ends_at > ?)
++              ((r.status IN ('PENDIENTE','APROBADA','PRESTADO') AND
++                r.starts_at < DATEADD('MINUTE', ?, ?) AND
++                r.ends_at > DATEADD('MINUTE', ?, ?))
+               OR (r.status='PRESTADO' AND r.ends_at < CURRENT_TIMESTAMP))
+             )) AS available FROM equipment e ORDER BY e.code
+-            """, end, start);
++            """, PREPARATION_MINUTES, end, -PREPARATION_MINUTES, start);
+     }
+ 
+     @Transactional
+@@ -73,10 +79,12 @@
+     private void checkAvailability(long equipmentId, LocalDateTime start, LocalDateTime end, long excludeId) {
+         int count=db.queryForObject("""
+             SELECT COUNT(*) FROM reservation WHERE equipment_id=? AND id<>? AND
+-            ((status IN ('PENDIENTE','APROBADA','PRESTADO') AND starts_at<? AND ends_at>?)
++            ((status IN ('PENDIENTE','APROBADA','PRESTADO') AND
++              starts_at < DATEADD('MINUTE', ?, ?) AND
++              ends_at > DATEADD('MINUTE', ?, ?))
+             OR (status='PRESTADO' AND ends_at<CURRENT_TIMESTAMP))
+-            """,Integer.class,equipmentId,excludeId,end,start);
+-        if (count>0) conflict("El equipo ya está reservado en ese horario o tiene una devolución pendiente.");
++            """,Integer.class,equipmentId,excludeId,PREPARATION_MINUTES,end,-PREPARATION_MINUTES,start);
++        if (count>0) conflict("El equipo ya está reservado en ese horario o no respeta el margen de preparación de " + PREPARATION_MINUTES + " minutos.");
+     }
+ 
+     public List<Map<String,Object>> reservations(String username) {
