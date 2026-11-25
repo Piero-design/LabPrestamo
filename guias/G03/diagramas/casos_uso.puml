@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+actor Estudiante
+actor Encargado
+rectangle "LabPréstamo" {
+  usecase "Iniciar / cerrar sesión" as UC1
+  usecase "Consultar disponibilidad" as UC2
+  usecase "Solicitar reserva" as UC3
+  usecase "Consultar reservas propias" as UC4
+  usecase "Cancelar reserva propia" as UC5
+  usecase "Aprobar o rechazar solicitud" as UC6
+  usecase "Registrar entrega" as UC7
+  usecase "Registrar devolución" as UC8
+  usecase "Administrar equipos" as UC9
+  usecase "Consultar reporte y exportar CSV" as UC10
+}
+Estudiante --> UC1
+Estudiante --> UC2
+Estudiante --> UC3
+Estudiante --> UC4
+Estudiante --> UC5
+Encargado --> UC1
+Encargado --> UC2
+Encargado --> UC3
+Encargado --> UC4
+Encargado --> UC5
+Encargado --> UC6
+Encargado --> UC7
+Encargado --> UC8
+Encargado --> UC9
+Encargado --> UC10
+@enduml

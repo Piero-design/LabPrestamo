@@ -1,0 +1,37 @@
+@startuml
+autonumber
+actor Estudiante
+participant "Frontend\napp.js" as UI
+participant "ApiController" as API
+participant "LabService" as Service
+database "H2 / JDBC" as DB
+
+Estudiante -> UI : elegir equipo e ingresar intervalo/motivo
+UI -> API : POST /api/reservations\n(autenticación + CSRF)
+API -> Service : reserve(username, equipmentId, start, end, reason)
+Service -> Service : validar intervalo, futuro y motivo
+alt campos o fechas inválidos
+  Service --> API : ResponseStatusException 400
+  API --> UI : 400 + mensaje de negocio
+else validación inicial correcta
+  Service -> DB : SELECT equipment ... FOR UPDATE
+  alt equipo inexistente
+    DB --> Service : sin filas
+    Service --> API : 404
+    API --> UI : 404
+  else equipo encontrado
+    Service -> Service : comprobar state = OPERATIVO
+    Service -> DB : contar superposiciones / préstamo vencido abierto
+    alt equipo en mantenimiento o conflicto
+      Service --> API : 409 Conflict
+      API --> UI : 409 + mensaje
+    else equipo operativo y disponible
+      Service -> DB : INSERT reservation(..., status=PENDIENTE)
+      DB --> Service : inserción confirmada
+      Service --> API : éxito
+      API --> UI : respuesta sin contenido
+      UI --> Estudiante : recargar y mostrar reserva pendiente
+    end
+  end
+end
+@enduml
