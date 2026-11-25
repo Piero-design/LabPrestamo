@@ -1,5 +1,9 @@
 # G09 Gestión de calidad con Selenium
 
+## Informe técnico
+
+[Descargar informe en Word](Informe_G09_Selenium.docx) · [Consultar informe en PDF](Informe_G09_Selenium.pdf). Incluye procedimiento, ocho casos, resultados de dos ejecuciones, capturas y dictamen funcional.
+
 ## Objetivo
 
 Verificar mediante Selenium WebDriver los resultados observables de los flujos de LabPréstamo y repetir la ejecución con datos aislados.
