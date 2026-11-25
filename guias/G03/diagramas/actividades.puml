@@ -1,0 +1,55 @@
+@startuml
+start
+|Estudiante|
+:Consultar equipos para un intervalo;
+:Elegir equipo, inicio, fin y motivo;
+|Sistema|
+:Validar campos e inicio futuro;
+if (¿Datos válidos?) then (sí)
+  :Bloquear equipo y comprobar estado/disponibilidad;
+  if (¿Operativo y disponible?) then (sí)
+    :Crear reserva PENDIENTE;
+    |Encargado|
+    :Revisar solicitud;
+    if (¿Aprobar?) then (sí)
+      |Sistema|
+      :Revalidar equipo, horario y disponibilidad;
+      if (¿Sigue válida?) then (sí)
+        :Guardar APROBADA y responsable;
+        |Encargado|
+        :Esperar al intervalo reservado;
+        :Ingresar condición inicial;
+        |Sistema|
+        :Validar aprobación, horario y equipo;
+        if (¿Entrega válida?) then (sí)
+          :Guardar PRESTADO, fecha, encargado y condición;
+          |Encargado|
+          :Ingresar condición final y reportar daño si corresponde;
+          |Sistema|
+          :Validar préstamo abierto;
+          :Guardar DEVUELTO y condición final;
+          if (¿Daño reportado?) then (sí)
+            :Cambiar equipo a MANTENIMIENTO;
+          else (no)
+            :Conservar estado operativo;
+          endif
+        else (no)
+          :Rechazar entrega;
+        endif
+      else (no)
+        :Rechazar aprobación por conflicto/estado/horario;
+      endif
+    else (rechazar)
+      |Encargado|
+      :Ingresar motivo de rechazo;
+      |Sistema|
+      :Guardar RECHAZADA y motivo;
+    endif
+  else (no)
+    :Informar equipo no disponible o en mantenimiento;
+  endif
+else (no)
+  :Informar error de validación;
+endif
+stop
+@enduml
